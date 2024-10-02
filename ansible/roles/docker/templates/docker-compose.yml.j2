@@ -1,34 +1,21 @@
-version: '3.8'
-
+version: '3'
 services:
-  web:
+  nginx:
+    container_name: nginx-container
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: /home/{{ ansible_user }}/Desktop/docker_app
     ports:
       - "80:80"
     volumes:
-      - .:/var/www/html
-    depends_on:
-      - db
-    networks:
-      - app-network
-
-  db:
+      - /home/{{ ansible_user }}/Desktop/docker_app/nginx.conf:/etc/nginx/nginx.conf
+  php:
+    container_name: php-container
+    image: php:7.4-fpm
+  mysql:
+    container_name: mysql-container
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: mydatabase
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: my_database
       MYSQL_USER: user
-      MYSQL_PASSWORD: password
-    volumes:
-      - db_data:/var/lib/mysql
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
-
-volumes:
-  db_data:
+      MYSQL_PASSWORD: user_password

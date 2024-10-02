@@ -1,14 +1,7 @@
-FROM php:7.4-fpm
+FROM nginx:latest
 
-RUN apt-get update && apt-get install -y \
-    nginx \
-    default-mysql-client \
-    && docker-php-ext-install pdo_mysql
-
-COPY . /var/www/html
-
-WORKDIR /var/www/html
+COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
-CMD ["php-fpm"]
+CMD ["nginx", "-g", "daemon off;"]

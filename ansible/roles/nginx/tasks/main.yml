@@ -1,15 +1,12 @@
 ---
-- name: Install Nginx
-  apt:
-    name: nginx
-    state: present
+- name: Create directory on Desktop
+  file:
+    path: "/home/{{ ansible_user }}/Desktop/docker_app"
+    state: directory
 
-- name: Copy Nginx config
+- name: Copy Nginx configuration file
   template:
-    src: nginx.conf.j2
-    dest: /etc/nginx/nginx.conf
-
-- name: Restart Nginx
-  service:
-    name: nginx
-    state: restarted
+    src: "templates/nginx.conf.j2"
+    dest: "/home/{{ ansible_user }}/Desktop/docker_app/nginx.conf"
+  notify:
+    - Restart Nginx

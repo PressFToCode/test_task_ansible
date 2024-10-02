@@ -1,6 +1,8 @@
-- hosts: webservers
+---
+- name: Deploy Dockerized Web Application
+  hosts: webservers
   remote_user: node
-  become: yes
+  become: true
   roles:
-    - docker
     - nginx
+    - docker
