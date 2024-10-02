@@ -9,16 +9,16 @@
     name: docker-compose
     state: present
 
-- name: Create project directory
+- name: Create project docker directory
   file:
-    path: /home/{{ ansible_user }}/test_task_ansible
+    path: /home/{{ ansible_user }}/test_task_ansible/docker
     state: directory
     mode: '0755'
 
 - name: Copy project files
   copy:
-    src: ../
-    dest: /home/{{ ansible_user }}/test_task_ansible/
+    src: "{{ playbook_dir }}/../docker"
+    dest: /home/{{ ansible_user }}/test_task_ansible/docker
     mode: '0755'
 
 - name: Copy docker-compose.yml
