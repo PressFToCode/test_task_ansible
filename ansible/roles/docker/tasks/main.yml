@@ -9,24 +9,31 @@
     name: docker-compose
     state: present
 
-- name: Create project docker directory
+- name: Create project directory on the desktop
   file:
-    path: /home/{{ ansible_user }}/test_task_ansible/docker
+    path: /home/{{ ansible_user }}/Desktop/test_task_ansible
     state: directory
     mode: '0755'
 
-- name: Copy project files
+- name: Copy Dockerfile
   copy:
-    src: "{{ playbook_dir }}/../docker"
-    dest: /home/{{ ansible_user }}/test_task_ansible/docker
-    mode: '0755'
+    src: "{{ playbook_dir }}/../docker/Dockerfile"
+    dest: /home/{{ ansible_user }}/Desktop/test_task_ansible/Dockerfile
+    mode: '0644'
 
 - name: Copy docker-compose.yml
   template:
-    src: docker-compose.yml.j2
-    dest: /home/{{ ansible_user }}/test_task_ansible/docker/docker-compose.yml
+    src: "{{ playbook_dir }}/../roles/docker/templates/docker-compose.yml.j2"
+    dest: /home/{{ ansible_user }}/Desktop/test_task_ansible/docker-compose.yml
+    mode: '0644'
+
+- name: Copy Nginx config
+  template:
+    src: "{{ playbook_dir }}/../roles/nginx/templates/nginx.conf.j2"
+    dest: /home/{{ ansible_user }}/Desktop/test_task_ansible/nginx.conf
+    mode: '0644'
 
 - name: Start Docker Compose
   command: docker-compose up -d
   args:
-    chdir: /home/{{ ansible_user }}/test_task_ansible/docker
+    chdir: /home/{{ ansible_user }}/Desktop/test_task_ansible
