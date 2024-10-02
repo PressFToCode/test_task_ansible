@@ -9,12 +9,24 @@
     name: docker-compose
     state: present
 
+- name: Create project directory
+  file:
+    path: /home/{{ ansible_user }}/test_task_ansible
+    state: directory
+    mode: '0755'
+
+- name: Copy project files
+  copy:
+    src: ../
+    dest: /home/{{ ansible_user }}/test_task_ansible/
+    mode: '0755'
+
 - name: Copy docker-compose.yml
   template:
     src: docker-compose.yml.j2
-    dest: /home/{{ ansible_user }}/docker-compose.yml
+    dest: /home/{{ ansible_user }}/test_task_ansible/docker/docker-compose.yml
 
 - name: Start Docker Compose
   command: docker-compose up -d
   args:
-    chdir: /home/{{ ansible_user }}
+    chdir: /home/{{ ansible_user }}/test_task_ansible/docker
