@@ -3,7 +3,7 @@ version: '3.8'
 services:
   web:
     build:
-      context: /home/{{ ansible_user }}/project/docker
+      context: /home/{{ ansible_user }}/test_task_ansible/docker
       dockerfile: Dockerfile
     ports:
       - "80:80"
